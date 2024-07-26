@@ -1,9 +1,11 @@
 package com.scalyr.s3search.s3simulation;
 
 import com.scalyr.s3search.utilities.FastRandom;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Implements a simulated version of Amazon S3.

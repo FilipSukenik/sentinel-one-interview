@@ -1,8 +1,10 @@
 package com.scalyr.s3search.textsearch;
 
 import java.io.UnsupportedEncodingException;
-import static java.util.stream.IntStream.range;
+import java.util.*;
 import java.util.stream.Stream;
+
+import static java.util.stream.IntStream.range;
 
 /**
  * A TextSearcher is constructed from a search string, and is able to quickly find instances of that
