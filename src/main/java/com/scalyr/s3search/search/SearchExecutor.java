@@ -8,15 +8,16 @@ public class SearchExecutor {
 
   private static final double NETWORK_FAILURE_RATE = 0.0025;
 
-  public void execute(String[] args) throws SimulatedS3Client.FlakyNetworkException {
+  public int execute(String[] args, int startEpoch, int endEpoch) {
 
     String searchTerm = args.length > 0 ? args[0] : "pewter";
 
     SimulatedS3Client s3Client = new SimulatedS3Client(NETWORK_FAILURE_RATE);
 
-    int result = countMatchesInEpochs(0, 1, searchTerm, s3Client);
+    int result = countMatchesInEpochs(startEpoch, endEpoch, searchTerm, s3Client);
 
     System.out.format("%d matches found for '%s' and variants%n", result, searchTerm);
+    return result;
   }
 
   /**
