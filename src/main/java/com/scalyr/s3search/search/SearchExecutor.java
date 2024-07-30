@@ -1,12 +1,12 @@
 package com.scalyr.s3search.search;
 
 import com.scalyr.s3search.s3simulation.SimulatedS3Client;
+import com.scalyr.s3search.search.impl.SemaphoreSearchStrategy;
 import com.scalyr.s3search.textsearch.TextSearcher;
-import java.util.Arrays;
 
 public class SearchExecutor {
 
-  private static final double NETWORK_FAILURE_RATE = 0.0025;
+  private static final double NETWORK_FAILURE_RATE = 0.025;
 
   public int execute(String[] args, int startEpoch, int endEpoch) {
 
@@ -33,14 +33,12 @@ public class SearchExecutor {
     SimulatedS3Client s3Client) {
 
     TextSearcher searcher = new TextSearcher(searchString);
+    long startTime = System.currentTimeMillis();
 
-    int[] results = new int[endEpoch - startEpoch];
-    for (int epochIndex = startEpoch; epochIndex < endEpoch; epochIndex++) {
-      var task = new SearchTask(s3Client, searcher, epochIndex);
-      task.run();
-      results[epochIndex - startEpoch] = task.getResult();
-    }
+    var searchStrategy = new SemaphoreSearchStrategy(s3Client, searcher);
+    var result = searchStrategy.executeStrategy(startEpoch, endEpoch);
 
-    return Arrays.stream(results).sum();
+    System.out.format("Execution time is %d%n", Math.abs(startTime - System.currentTimeMillis()));
+    return result;
   }
 }

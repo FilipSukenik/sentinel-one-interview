@@ -7,9 +7,8 @@ class SearchExecutorIntegrationTest {
 
   @Test
   void integrationTestOfSearchExecutor() {
-
     var executor = new SearchExecutor();
-    var result = executor.execute(new String[0], 0, 1);
-    Assertions.assertEquals(16, result);
+    var result = executor.execute(new String[0], 0, 100);
+    Assertions.assertEquals(1874, result);
   }
 }
